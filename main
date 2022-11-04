@@ -1,0 +1,55 @@
+#include <stdbool.h>
+#include <stdio.h>
+
+bool checkPrime(int n) {
+  int i;
+  bool primeFlag = false;
+  for (i = 2; i * i <= n; i++) {
+    if (n % i == 0) // if not prime return flag (already false)
+      return primeFlag;
+  }
+  primeFlag = true; // if n exits loop -> prime -> flag true
+  return primeFlag;
+}
+
+bool checkAtomic(int n) {
+  int i, temp, sum;
+  bool atomicFlag = true;
+  for (i = 2; i < n; i++) // check for every number < N
+  {
+    temp = i; // set temp = i, sum = 0 in every iteration
+    sum = 0;
+    while (temp > 0) {
+      sum += temp % 10; // iterate through all digits and add them
+      temp /= 10;
+    }
+    if (n == sum + i) // if sum of digits+i == N ->not atomic
+    {
+      atomicFlag = false;
+      break;
+    }
+  }
+  return atomicFlag;
+}
+
+int main() {
+  int N;
+  scanf("%d", &N);
+  if (N < 1) {
+    printf("Wrong Input");
+    return 1;
+  }
+  if (!checkPrime(N)) {
+    printf("No");
+    return 0;
+  } else if (checkPrime(N)) // if prime, then check if atomic
+  {
+    if (checkAtomic(N)) {
+      printf("Yes");
+      return 0;
+    } else {
+      printf("No");
+      return 0;
+    }
+  }
+}
